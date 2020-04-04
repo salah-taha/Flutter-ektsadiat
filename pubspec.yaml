@@ -1,0 +1,60 @@
+name: eqtisadiat
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  animated_splash:
+  carousel_slider:
+  flutter_html:
+  http:
+  youtube_player_flutter:
+  social_media_buttons:
+  share:
+  timeago:
+  shared_preferences:
+
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo-Light.ttf
+          weight: 200
+    - family: Reem
+      fonts:
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 600
+
+  assets:
+    - assets/img/logo.png
+    - assets/img/placeholder.png
+    - assets/img/video-placeholder.jpg
+    - assets/img/news.png
+    - assets/img/loading.gif
+    - assets/img/loading1.gif
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
