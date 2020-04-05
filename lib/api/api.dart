@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+const imageUrlPrefix = 'http://eqtisadiat.com/public/images/{imageName}';
+
+const getPostWithIdEndPoint = 'http://eqtisadiat.com/api/v4/post/{id}';
+
 class Api {
   String news = 'https://eqtisadiat.com/api/v4/sliders';
   String breaking = 'https://eqtisadiat.com/api/v4/breaking';
@@ -169,6 +173,14 @@ class Api {
       this._categories.add(cate);
     });
     print('Data Converted');
+  }
+
+  getCates() async {
+    http.Response cates = await http.get(this.cates, headers: {
+      "Accept": "application/json",
+    });
+    var cates2 = json.decode(cates.body);
+    return cates2;
   }
 
   getTodayFromApi() async {
