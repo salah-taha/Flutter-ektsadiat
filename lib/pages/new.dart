@@ -15,6 +15,7 @@ class NewPage extends StatefulWidget {
 
 class _NewPage extends State<NewPage> {
   final post;
+  var newPost;
 
   _NewPage({@required this.post});
   @override
@@ -32,13 +33,13 @@ class _NewPage extends State<NewPage> {
           child: FloatingActionButton(
             onPressed: () {
               Share.share('https://eqtisadiat.com/v/' +
-                  post.categoryId.toString() +
+                  post['id'] +
                   '/' +
-                  post.category.slug.toString() +
+                  post['category']['slug'].toString() +
                   '/article/' +
-                  post.id.toString() +
+                  post['id'].toString() +
                   '/' +
-                  post.slug);
+                  post['slug']);
             },
             backgroundColor: Colors.red,
             child: Icon(
@@ -55,10 +56,17 @@ class _NewPage extends State<NewPage> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: Image.asset('assets/img/loading.gif'),
+                  ),
+                ),
               );
             }
-            print(snapshot.data);
+
             if (snapshot.data != null) {
               List tags = snapshot.data['source'].split(',');
               List date = snapshot.data['created_at'].split(' ');
@@ -101,9 +109,7 @@ class _NewPage extends State<NewPage> {
                             padding: EdgeInsets.only(
                                 right: 10, left: 10, top: 2, bottom: 2),
                             child: Text(
-                              snapshot.data['category']['name_ar'] ??
-                                  snapshot.data['category'] ??
-                                  'Category',
+                              snapshot.data['category'] ?? 'Category',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.red,
@@ -206,7 +212,9 @@ class _NewPage extends State<NewPage> {
                         child: Directionality(
                           textDirection: TextDirection.rtl,
                           child: Html(
-                            data: snapshot.data['details_ar'],
+                            data: snapshot.data['details_ar']
+                                .toString()
+                                .replaceAll('\n', ''),
                             showImages: true,
                             renderNewlines: true,
                             shrinkToFit: true,

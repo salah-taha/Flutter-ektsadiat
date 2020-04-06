@@ -37,7 +37,16 @@ class _CategoryBody extends State<Category> {
               future: Api.getCatePosts(cateID: cateID.toString()),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        child: Image.asset('assets/img/loading.gif'),
+                      ),
+                    ),
+                  );
                 }
                 snapshot.data.forEach((_new) {
                   Widget item = ListTile(

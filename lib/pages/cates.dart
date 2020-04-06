@@ -20,151 +20,6 @@ class _CategoriesPage extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     List<Widget> widgets = new List<Widget>();
 
-    List _cates = api.getCategorieswithoutTime();
-
-    _cates.forEach((element) {
-      List<Widget> _news = new List<Widget>();
-
-      if (element.news.length > 6) {
-        for (int i = 0; i <= 6; i++) {
-          Widget item = ListTile(
-            title: Text(
-              element.news[i] != null ? element.news[i].titleAr : '',
-              style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Cairo'),
-            ),
-            subtitle: Text(
-              element.news[i].createdAt != null
-                  ? element.news[i].createdAt
-                  : '',
-              style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
-            ),
-            leading: element.news[i].image != null
-                ? Image.network('http://eqtisadiat.com/public/images/' +
-                    element.news[i].image)
-                : Image.asset('assets/img/placeholder.png'),
-            trailing: Icon(Icons.keyboard_arrow_left),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NewPage(element.news[i])),
-              );
-            },
-          );
-          _news.add(item);
-        }
-      } else {
-        element.news.forEach((_new) {
-          Widget item = ListTile(
-            title: Text(
-              _new.titleAr != null ? _new.titleAr : '',
-              style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Cairo'),
-            ),
-            subtitle: Text(
-              _new.createdAt != null ? _new.createdAt : '',
-              style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
-            ),
-            leading: _new.image != null
-                ? Image.network(
-                    'http://eqtisadiat.com/public/images/' + _new.image)
-                : Image.asset('assets/img/placeholder.png'),
-            trailing: Icon(Icons.keyboard_arrow_left),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewPage(_new)),
-              );
-            },
-          );
-          _news.add(item);
-        });
-      }
-
-      Widget sample = Directionality(
-        textDirection: TextDirection.rtl,
-        child: ConstrainedBox(
-            constraints: new BoxConstraints(
-              minHeight: 100,
-              minWidth: MediaQuery.of(context).size.width,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 4,
-                          child: SizedBox(
-                            height: 40,
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(right: 10, left: 10, top: 5),
-                              child: Text(element.nameAr,
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Cairo',
-                                    fontSize: 14,
-                                  )),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: Colors.red,
-                            ),
-                            iconSize: 18,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Category(
-                                        element['id'].toString(),
-                                        element['name_ar'])),
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    )),
-                ConstrainedBox(
-                    constraints: new BoxConstraints(
-                      minHeight: 100,
-                      minWidth: MediaQuery.of(context).size.width,
-                    ),
-                    child: MediaQuery.removePadding(
-                      removeTop: true,
-                      removeBottom: true,
-                      context: context,
-                      child: Scrollbar(
-                        controller: ScrollController(
-                          initialScrollOffset: 1.0,
-                        ),
-                        child: ListView(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            primary: false,
-                            semanticChildCount: _news.length,
-                            children: _news),
-                      ),
-                    ))
-              ],
-            )),
-      );
-      widgets.add(sample);
-    });
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -174,67 +29,180 @@ class _CategoriesPage extends State<CategoriesPage> {
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: <Widget>[
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: FutureBuilder(
-              future: api.getCates(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+      body: Stack(children: <Widget>[
+        FutureBuilder(
+          future: api.getCatesData(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: Image.asset('assets/img/loading.gif'),
+                  ),
+                ),
+              );
+            }
+
+            snapshot.data.forEach((element) {
+              List<Widget> _news = new List<Widget>();
+
+              if (element['posts'].length > 6) {
+                for (int i = 0; i <= 6; i++) {
+                  Widget item = ListTile(
+                    title: Text(
+                      element['posts'][i] != null
+                          ? element['posts'][i]['title_ar']
+                          : '',
+                      style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'Cairo'),
+                    ),
+                    subtitle: Text(
+                      element['posts'][i]['created_at'] != null
+                          ? element['posts'][i]['created_at']
+                          : '',
+                      style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
+                    ),
+                    leading: element['posts'][i]['image'] != null
+                        ? Image.network('http://eqtisadiat.com/public/images/' +
+                            element['posts'][i]['image'])
+                        : Image.asset('assets/img/placeholder.png'),
+                    trailing: Icon(Icons.keyboard_arrow_left),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NewPage(element['posts'][i])),
+                      );
+                    },
                   );
+                  _news.add(item);
                 }
-                return ListView.builder(
-                  itemCount: 12,
-                  itemBuilder: (context, index) {
-                    var _new = snapshot.data[index + 1];
-                    return ListTile(
-                      title: Text(
-                        _new['posts'][0]['title_ar'] != null
-                            ? _new['posts'][0]['title_ar']
-                            : '',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Cairo'),
-                      ),
-                      subtitle: Text(
-                        _new['posts'][0]['created_at'] != null
-                            ? _new['posts'][0]['created_at']
-                            : '',
-                        style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
-                      ),
-                      leading: _new['posts'][0]['image'] != null
-                          ? Image.network(
-                              'http://eqtisadiat.com/public/images/' +
-                                  _new['posts'][0]['image'],
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset('assets/img/placeholder.png'),
-                      trailing: Icon(Icons.keyboard_arrow_left),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewPage(_new)),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-//            SingleChildScrollView(
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.start,
-//                children: widgets,
-//              ),
-//            ),
-          )
-        ],
-      ),
+              } else {
+                element['posts'].forEach((_new) {
+                  Widget item = ListTile(
+                    title: Text(
+                      _new['title_ar'] != null ? _new['title_ar'] : '',
+                      style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'Cairo'),
+                    ),
+                    subtitle: Text(
+                      _new['created_at'] != null ? _new['created_at'] : '',
+                      style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
+                    ),
+                    leading: _new['image'] != null
+                        ? Image.network('http://eqtisadiat.com/public/images/' +
+                            _new['image'])
+                        : Image.asset('assets/img/placeholder.png'),
+                    trailing: Icon(Icons.keyboard_arrow_left),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NewPage(_new)),
+                      );
+                    },
+                  );
+                  _news.add(item);
+                });
+              }
+
+              Widget sample = Directionality(
+                textDirection: TextDirection.rtl,
+                child: ConstrainedBox(
+                    constraints: new BoxConstraints(
+                      minHeight: 100,
+                      minWidth: MediaQuery.of(context).size.width,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 4,
+                                  child: SizedBox(
+                                    height: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: 10, left: 10, top: 5),
+                                      child: Text(element['name_ar'],
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'Cairo',
+                                            fontSize: 14,
+                                          )),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.red,
+                                    ),
+                                    iconSize: 18,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Category(
+                                                element['id'].toString(),
+                                                element['name_ar'])),
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
+                            )),
+                        ConstrainedBox(
+                            constraints: new BoxConstraints(
+                              minHeight: 100,
+                              minWidth: MediaQuery.of(context).size.width,
+                            ),
+                            child: MediaQuery.removePadding(
+                              removeTop: true,
+                              removeBottom: true,
+                              context: context,
+                              child: Scrollbar(
+                                controller: ScrollController(
+                                  initialScrollOffset: 1.0,
+                                ),
+                                child: ListView(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    primary: false,
+                                    semanticChildCount: _news.length,
+                                    children: _news),
+                              ),
+                            ))
+                      ],
+                    )),
+              );
+              widgets.add(sample);
+            });
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: widgets,
+                ),
+              ),
+            );
+          },
+        ),
+      ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -136,7 +136,14 @@ class _HomeState extends State<Home> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      child: Image.asset('assets/img/loading.gif'),
+                    ),
+                  ),
                 );
               }
               snapshot.data['cates'].asMap().forEach((i, item) {
@@ -343,7 +350,7 @@ class _HomeSlider extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
-                            Colors.black.withOpacity(0.9), BlendMode.dstATop),
+                            Colors.black, BlendMode.dstATop),
                         image: new NetworkImage(
                             'https://eqtisadiat.com/public/images/' +
                                 _new['image']),

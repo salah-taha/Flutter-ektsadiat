@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
 //
 //  _getData() {
 //    api.connectionIsReady().then((ready) {
-//      api.getDataFromApi2();
+//      api.getDataFromApi();
 //    });
 //  }
 

@@ -9,10 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-const imageUrlPrefix = 'http://eqtisadiat.com/public/images/{imageName}';
-
-const getPostWithIdEndPoint = 'http://eqtisadiat.com/api/v4/post/{id}';
-
 class Api {
   String news = 'https://eqtisadiat.com/api/v4/sliders';
   String breaking = 'https://eqtisadiat.com/api/v4/breaking';
@@ -20,8 +16,6 @@ class Api {
   String videos = 'https://eqtisadiat.com/api/v4/videos';
   String cates = 'https://eqtisadiat.com/api/v4/categories';
   String today = 'https://eqtisadiat.com/api/today';
-
-  String catWithID = 'http://eqtisadiat.com/api/v3/post/cate/';
 
   Map data = Map();
 
@@ -43,6 +37,15 @@ class Api {
     } catch (_) {
       return false;
     }
+  }
+
+  getCatesData() async {
+    http.Response response =
+        await http.get('https://eqtisadiat.com/api/v4/categories', headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
   }
 
   static getPostWithID({String id}) async {
@@ -82,6 +85,38 @@ class Api {
 
     this.data = data;
     return data;
+  }
+
+  getBreakingData() async {
+    http.Response response = await http.get(this.breaking, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
+  }
+
+  getSpreadData() async {
+    http.Response response = await http.get(this.viewed, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
+  }
+
+  getVideosData() async {
+    http.Response response = await http.get(this.videos, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
+  }
+
+  getTodayData() async {
+    http.Response response = await http.get(this.today, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
   }
 
   getDataFromApi() async {
