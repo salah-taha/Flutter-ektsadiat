@@ -15,18 +15,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final api = Api();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getData();
-  }
-
-  _getData() {
-    api.connectionIsReady().then((ready) {
-      api.getDataFromApi();
-    });
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//    _getData();
+//  }
+//
+//  _getData() {
+//    api.connectionIsReady().then((ready) {
+//      api.getDataFromApi2();
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {

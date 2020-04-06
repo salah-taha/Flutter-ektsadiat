@@ -21,11 +21,15 @@ class Api {
   String cates = 'https://eqtisadiat.com/api/v4/categories';
   String today = 'https://eqtisadiat.com/api/today';
 
-  List<News> _sliders = new List<News>();
-  List<News> _breaking = new List<News>();
+  String catWithID = 'http://eqtisadiat.com/api/v3/post/cate/';
+
+  Map data = Map();
+
+  var _sliders = new List<News>();
+  var _breaking = new List<News>();
   List<News> _viewed = new List<News>();
-  List<Video> _videos = new List<Video>();
-  List<CategoryModel> _categories = new List<CategoryModel>();
+  var _videos = new List<Video>();
+  var _categories = new List<CategoryModel>();
   List<News> _today = new List<News>();
   SharedPreferences prefs;
   List jsoncates;
@@ -41,6 +45,45 @@ class Api {
     }
   }
 
+  static getPostWithID({String id}) async {
+    http.Response response =
+        await http.get('http://eqtisadiat.com/api/v4/post/' + id, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
+  }
+
+  static getCatePosts({String cateID}) async {
+    http.Response response = await http
+        .get('http://eqtisadiat.com/api/v3/post/cate/' + cateID, headers: {
+      "Accept": "application/json",
+    });
+
+    return json.decode(response.body);
+  }
+
+  getDataFromApi2() async {
+    http.Response response = await http.get(this.news, headers: {
+      "Accept": "application/json",
+    });
+
+    http.Response videoRequest = await http.get(this.videos, headers: {
+      "Accept": "application/json",
+    });
+    http.Response cateRequest = await http.get(this.cates, headers: {
+      "Accept": "application/json",
+    });
+
+    Map data = Map();
+    data['sliders'] = json.decode(response.body);
+    data['videos'] = json.decode(videoRequest.body);
+    data['cates'] = json.decode(cateRequest.body);
+
+    this.data = data;
+    return data;
+  }
+
   getDataFromApi() async {
     http.Response response = await http.get(this.news, headers: {
       "Accept": "application/json",
@@ -53,126 +96,11 @@ class Api {
       "Accept": "application/json",
     });
 
-    print('gotData');
+    this._sliders = json.decode(response.body);
 
-    json.decode(response.body).forEach((element) {
-      News _new = News(
-        accName: element['acc_name'],
-        breaking: element['breaking'],
-        categoryId: element['category_id'],
-        createdAt: element['created_at'],
-        details: element['details'],
-        detailsAr: element['details_ar'],
-        featured: element['featured'],
-        hitCount: element['hit_count'],
-        id: element['id'],
-        image: element['image'],
-        reviewedBy: element['reviewed_by'],
-        schedule: element['schedule'],
-        slider: element['slider'],
-        slug: element['slug'],
-        slugAr: element['slug_ar'],
-        smTitle: element['sm_title'],
-        source: element['source'],
-        sourceAr: element['source_ar'],
-        status: element['status'],
-        title: element['title'],
-        titleAr: element['title_ar'],
-        updatedAt: element['updated_at'],
-        userName: element['user_name'],
-        vedioUrl: element['video_url'],
-        category: CategoryModel(
-          id: element['category']['id'],
-          name: element['category']['name'],
-          nameAr: element['category']['name_ar'],
-          createdAt: element['category']['created_at'],
-          position: element['category']['position'],
-          slug: element['category']['slug'],
-          slugAr: element['category']['slug_ar'],
-          status: element['category']['status'],
-          updatedAt: element['category']['updated_at'],
-        ),
-      );
-      _sliders.add(_new);
-    });
+    this._videos = json.decode(videoRequest.body);
 
-    json.decode(videoRequest.body).forEach((element) {
-      Video _new = Video(
-        id: element['id'],
-        link: element['link'],
-        linkAr: element['link_ar'],
-        slug: element['slug'],
-        slugAr: element['slug_ar'],
-        status: element['status'],
-        title: element['title'],
-        createdAt: element['created_at'],
-        titleAr: element['title_ar'],
-        updatedAt: element['updated_at'],
-        url: element['url'],
-      );
-      this._videos.add(_new);
-    });
-
-    json.decode(cateRequest.body).forEach((element) {
-      List<News> _cates_news = new List<News>();
-      element['posts'].forEach((post) {
-        News _one = News(
-          accName: post['acc_name'],
-          breaking: post['breaking'],
-          categoryId: post['category_id'],
-          createdAt: post['created_at'],
-          details: post['details'],
-          detailsAr: post['details_ar'],
-          featured: post['featured'],
-          hitCount: post['hit_count'],
-          id: post['id'],
-          image: post['image'],
-          reviewedBy: post['reviewed_by'],
-          schedule: post['schedule'],
-          slider: post['slider'],
-          slug: post['slug'],
-          slugAr: post['slug_ar'],
-          smTitle: post['sm_title'],
-          source: post['source'],
-          sourceAr: post['source_ar'],
-          status: post['status'],
-          title: post['title'],
-          titleAr: post['title_ar'],
-          updatedAt: post['updated_at'],
-          userName: post['user_name'],
-          vedioUrl: post['video_url'],
-          category: CategoryModel(
-            id: element['id'],
-            name: element['name'],
-            nameAr: element['name_ar'],
-            createdAt: element['created_at'],
-            position: element['position'],
-            slug: element['slug'],
-            slugAr: element['slug_ar'],
-            status: element['status'],
-            updatedAt: element['updated_at'],
-            news: new List<News>(),
-          ),
-        );
-
-        _cates_news.add(_one);
-      });
-      CategoryModel cate = CategoryModel(
-        id: element['id'],
-        name: element['name'],
-        nameAr: element['name_ar'],
-        createdAt: element['created_at'],
-        position: element['position'],
-        slug: element['slug'],
-        slugAr: element['slug_ar'],
-        status: element['status'],
-        updatedAt: element['updated_at'],
-        news: _cates_news,
-      );
-
-      this._categories.add(cate);
-    });
-    print('Data Converted');
+    this._categories = json.decode(cateRequest.body);
   }
 
   getCates() async {

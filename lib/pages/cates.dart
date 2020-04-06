@@ -1,4 +1,3 @@
-import 'package:eqtisadiat/Models/Category.dart';
 import 'package:eqtisadiat/api/api.dart';
 import 'package:eqtisadiat/pages/Category.dart';
 import 'package:eqtisadiat/pages/new.dart';
@@ -21,7 +20,7 @@ class _CategoriesPage extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     List<Widget> widgets = new List<Widget>();
 
-    List<CategoryModel> _cates = api.getCategorieswithoutTime();
+    List _cates = api.getCategorieswithoutTime();
 
     _cates.forEach((element) {
       List<Widget> _news = new List<Widget>();
@@ -130,7 +129,9 @@ class _CategoriesPage extends State<CategoriesPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Category(element)),
+                                    builder: (context) => Category(
+                                        element['id'].toString(),
+                                        element['name_ar'])),
                               );
                             },
                           ),
