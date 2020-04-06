@@ -20,8 +20,13 @@ dependencies:
   share:
   timeago:
   shared_preferences:
+  flutter_launcher_icons: ^0.7.4
 
-  
+
+flutter_icons:
+  image_path: "assets/img/logo.png"
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
