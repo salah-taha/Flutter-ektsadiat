@@ -68,7 +68,9 @@ class _NewPage extends State<NewPage> {
             }
 
             if (snapshot.data != null) {
-              List tags = snapshot.data['source'].split(',');
+              List tags = snapshot.data['source'] != null
+                  ? snapshot.data['source'].split(',')
+                  : List();
               List date = snapshot.data['created_at'].split(' ');
               if (tags.length >= 1) {
                 tags.forEach((element) {
@@ -109,7 +111,8 @@ class _NewPage extends State<NewPage> {
                             padding: EdgeInsets.only(
                                 right: 10, left: 10, top: 2, bottom: 2),
                             child: Text(
-                              snapshot.data['category'] ?? 'Category',
+                              snapshot.data['category']['name_ar'] ??
+                                  'Category',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.red,
