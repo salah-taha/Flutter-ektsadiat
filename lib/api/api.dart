@@ -10,12 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Api {
-  String news = 'https://eqtisadiat.com/api/v4/sliders';
-  String breaking = 'https://eqtisadiat.com/api/v4/breaking';
-  String viewed = 'https://eqtisadiat.com/api/v4/viewed';
-  String videos = 'https://eqtisadiat.com/api/v4/videos';
-  String cates = 'https://eqtisadiat.com/api/v4/categories';
-  String today = 'https://eqtisadiat.com/api/today';
+  String news = 'http://eqtisadiat.com/api/v4/sliders';
+  String breaking = 'http://eqtisadiat.com/api/v4/breaking';
+  String viewed = 'http://eqtisadiat.com/api/v4/viewed';
+  String videos = 'http://eqtisadiat.com/api/v4/videos';
+  String cates = 'http://eqtisadiat.com/api/v4/categories';
+  String today = 'http://eqtisadiat.com/api/today';
 
   Map data = Map();
 
@@ -41,7 +41,7 @@ class Api {
 
   getCatesData() async {
     http.Response response =
-        await http.get('https://eqtisadiat.com/api/v4/categories', headers: {
+        await http.get('http://eqtisadiat.com/api/v4/categories', headers: {
       "Accept": "application/json",
     });
 
@@ -346,7 +346,7 @@ class Api {
   void getNewsForCategory() async {
     this._categories.forEach((element) async {
       http.Response response = await http.get(
-          'https://eqtisadiat.com/api/v3/post/cate/' + element.id.toString(),
+          'http://eqtisadiat.com/api/v3/post/cate/' + element.id.toString(),
           headers: {
             "Accept": "application/json",
           });
@@ -403,7 +403,7 @@ class Api {
 
   getMoreNewsForCategory(int id, int post) async {
     http.Response response = await http.get(
-        'https://eqtisadiat.com/v3/post/cate/' +
+        'http://eqtisadiat.com/v3/post/cate/' +
             id.toString() +
             '/next/' +
             post.toString(),
