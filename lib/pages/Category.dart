@@ -62,7 +62,7 @@ class _CategoryBody extends State<Category> {
                       style: TextStyle(fontSize: 9, fontFamily: 'Cairo'),
                     ),
                     leading: FadeInImage.assetNetwork(
-                      image: 'https://eqtisadiat.com/public/images/' +
+                      image: 'http://eqtisadiat.com/public/images/' +
                           _new['image'],
                       placeholder: 'assets/img/placeholder.png',
                       fit: BoxFit.cover,
@@ -118,7 +118,7 @@ class _CategoryBody extends State<Category> {
 //            style: TextStyle(fontSize: 11),
 //          ),
 //          leading: FadeInImage.assetNetwork(
-//            image: 'https://eqtisadiat.com/public/images/' + _new.image,
+//            image: 'http://eqtisadiat.com/public/images/' + _new.image,
 //            placeholder: 'assets/img/placeholder.png',
 //            fit: BoxFit.cover,
 //          ),

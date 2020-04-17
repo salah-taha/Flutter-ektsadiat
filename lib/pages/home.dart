@@ -352,7 +352,7 @@ class _HomeSlider extends StatelessWidget {
                         colorFilter: new ColorFilter.mode(
                             Colors.black, BlendMode.dstATop),
                         image: new NetworkImage(
-                            'https://eqtisadiat.com/public/images/' +
+                            'http://eqtisadiat.com/public/images/' +
                                 _new['image']),
                       ))),
               Positioned(
@@ -812,7 +812,7 @@ class _LatestNews2 extends StatelessWidget {
                                       Colors.black.withOpacity(0.4),
                                       BlendMode.dstATop),
                                   image: new NetworkImage(
-                                      'https://eqtisadiat.com/public/images/' +
+                                      'http://eqtisadiat.com/public/images/' +
                                           _new['image']),
                                 ))),
                         Positioned(

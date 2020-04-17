@@ -32,7 +32,7 @@ class _NewPage extends State<NewPage> {
           padding: EdgeInsets.only(bottom: 10),
           child: FloatingActionButton(
             onPressed: () {
-              Share.share('https://eqtisadiat.com/v/' +
+              Share.share('http://eqtisadiat.com/v/' +
                   post['id'] +
                   '/' +
                   post['category']['slug'].toString() +
@@ -182,7 +182,7 @@ class _NewPage extends State<NewPage> {
                                     Colors.black.withOpacity(0.6),
                                     BlendMode.dstATop),
                                 image: new NetworkImage(
-                                    'https://eqtisadiat.com/public/images/' +
+                                    'http://eqtisadiat.com/public/images/' +
                                         snapshot.data['image']),
                               )),
                         ),
